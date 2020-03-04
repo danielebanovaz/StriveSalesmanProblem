@@ -13,8 +13,6 @@ namespace StriveSalesmanProblem
     {
         const int INF = int.MaxValue;
 
-        const int MAX_CITIES_WE_WANT_TO_CONSIDER = 11;
-
         #region Branch-and-bound lesson example
         /*int[][] _distances = new int[][]
             {
@@ -26,7 +24,9 @@ namespace StriveSalesmanProblem
             };*/
         #endregion Branch-and-bound lesson example
 
-        int[][] _distances = new int[][] {
+        public static int MaxCitiesAllowed { get { return _distances.Length; } }
+
+        static int[][] _distances = new int[][] {
                                         new [] { INF, 29, 82, 46, 68, 52, 72, 42, 51, 55, 29, 74, 23, 72, 46 },
                                         new [] { 29, INF, 55, 46, 42, 43, 43, 23, 23, 31, 41, 51, 11, 52, 21 },
                                         new [] { 82, 55, INF, 68, 46, 55, 23, 43, 41, 29, 79, 21, 64, 31, 51 },
@@ -45,11 +45,14 @@ namespace StriveSalesmanProblem
 
         public int NumberOfCitiesConsidered { get; private set; }
 
+        public TspSolver(int numberOfCities)
+        {
+            // Set a limit to the complexity of our calculation 
+            NumberOfCitiesConsidered = numberOfCities;
+        }
+
         public Path Solve()
         {
-            // Set a limit to the complexity of our calculation by changing MAX_CITIES_WE_WANT_TO_CONSIDER
-            NumberOfCitiesConsidered = Math.Min(_distances.Length, MAX_CITIES_WE_WANT_TO_CONSIDER);
-
             Path solution = new Path();
             solution.CitiesVisited.Add(0);
             solution = FindBetterSubPath(solution);
